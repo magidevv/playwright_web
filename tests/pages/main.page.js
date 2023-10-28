@@ -1,6 +1,7 @@
 const { Page } = require("./page");
 
 const loginLink = "a[href='/login']";
+const registrationLink = "a[href='/account/register']";
 
 class MainPage extends Page {
   constructor(page) {
@@ -18,6 +19,14 @@ class MainPage extends Page {
 
   async clickLoginLink() {
     await super.clickElement(loginLink);
+  }
+
+  async getRegistrationLink() {
+    await super.getElement(registrationLink);
+  }
+
+  async clickRegistrationLink() {
+    await super.clickElement(registrationLink);
   }
 }
 
