@@ -11,7 +11,7 @@ const languageSelect = "#user_language";
 const IRCnickField = "#user_custom_field_values_3";
 const registartionConfirmButton = "input[value='Принять']";
 const confirmationMsg = "#flash_notice";
-const registartionErrorMsg = "#flash_error";
+const registartionErrorMsg = "#errorExplanation";
 
 class RegistrationPage extends Page {
   constructor(page) {

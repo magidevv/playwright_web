@@ -46,4 +46,36 @@ test.describe("Registration testing", () => {
       "Учётная запись успешно создана. Для активации Вашей учётной записи пройдите по ссылке, которая выслана Вам по электронной почте."
     );
   });
+  test("New account registration with incorrect user data format", async () => {
+    await registrationPage.openRegistrationUrl();
+    //await registrationPage.fillLoginField(username);
+    //await registrationPage.fillPasswordField(password);
+    //await registrationPage.fillPasswordConfirmField(password);
+    //await registrationPage.fillFirstNameField(firstname);
+    //await registrationPage.fillLastNameField(lastname);
+    //await registrationPage.fillEmailField(email);
+    //await registrationPage.fillIRCnickField(ircnick);
+    await registrationPage.clickRegistartionConfirmButton();
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Пользователь имеет неверное значение"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Пароль имеет неверное значение"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Пароль не совпадает с подтверждением"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Имя имеет неверное значение"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Фамилия имеет неверное значение"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Email имеет неверное значение"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "IRC nick имеет неверное значение"
+    );
+  });
 });
