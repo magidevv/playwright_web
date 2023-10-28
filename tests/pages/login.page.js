@@ -3,6 +3,7 @@ const { Page } = require("./page");
 const loginField = "#username";
 const passwordField = "#password";
 const loginButton = "#login-submit";
+const loginErrorMsg = "#flash_error";
 
 class LoginPage extends Page {
   constructor(page) {
@@ -36,6 +37,10 @@ class LoginPage extends Page {
 
   async clickLoginButton() {
     await super.clickElement(loginButton);
+  }
+
+  async getLoginErrorMsg() {
+    await super.getElement(loginErrorMsg);
   }
 }
 
