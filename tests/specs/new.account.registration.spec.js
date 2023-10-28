@@ -46,6 +46,7 @@ test.describe("Registration testing", () => {
       "Учётная запись успешно создана. Для активации Вашей учётной записи пройдите по ссылке, которая выслана Вам по электронной почте."
     );
   });
+
   test("New account registration with incorrect user data format", async () => {
     await registrationPage.openRegistrationUrl();
     //await registrationPage.fillLoginField(username);
@@ -76,6 +77,29 @@ test.describe("Registration testing", () => {
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
       "IRC nick имеет неверное значение"
+    );
+  });
+
+  test("New account registration with empty required fields", async () => {
+    await registrationPage.openRegistrationUrl();
+    await registrationPage.clickRegistartionConfirmButton();
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Пользователь не может быть пустым"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Пароль недостаточной длины (не может быть меньше 8 символа)"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Подтверждение не может быть пустым"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Имя не может быть пустым"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Фамилия не может быть пустым"
+    );
+    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      "Email не может быть пустым"
     );
   });
 });
