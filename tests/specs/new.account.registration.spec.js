@@ -6,8 +6,12 @@ const { RegistrationPage } = require("../pages/registration.page");
 let mainPage;
 let registrationPage;
 
-const randomName = faker.person.fullName();
+const randomName = faker.internet.userName();
+const randomPassword = faker.internet.password();
+const randomFirstName = faker.person.firstName();
+const randomLastName = faker.person.lastName();
 const randomEmail = faker.internet.email();
+const randomIRCnick = faker.internet.userName();
 
 test.describe("Registration testing", () => {
   test.beforeEach(async ({ page }) => {
@@ -21,23 +25,23 @@ test.describe("Registration testing", () => {
     await mainPage.clickRegistrationLink();
     await expect(page).toHaveURL(/account\/register$/);
     await expect(await registrationPage.getLoginField()).toBeVisible();
-    //await registrationPage.fillLoginField(username);
+    await registrationPage.fillLoginField(randomName);
     await expect(await registrationPage.getPasswordField()).toBeVisible();
-    //await registrationPage.fillPasswordField(password);
+    await registrationPage.fillPasswordField(randomPassword);
     await expect(
       await registrationPage.getPasswordConfirmField()
     ).toBeVisible();
-    //await registrationPage.fillPasswordConfirmField(password);
+    await registrationPage.fillPasswordConfirmField(randomPassword);
     await expect(await registrationPage.getFirstNameField()).toBeVisible();
-    //await registrationPage.fillFirstNameField(firstname);
+    await registrationPage.fillFirstNameField(randomFirstName);
     await expect(await registrationPage.getLastNameField()).toBeVisible();
-    //await registrationPage.fillLastNameField(lastname);
+    await registrationPage.fillLastNameField(randomLastName);
     await expect(await registrationPage.getEmailField()).toBeVisible();
-    //await registrationPage.fillEmailField(email);
+    await registrationPage.fillEmailField(randomEmail);
     await expect(await registrationPage.getEmailHideCheckbox()).toBeVisible();
     await expect(await registrationPage.getLanguageSelect()).toBeVisible();
     await expect(await registrationPage.getIRCnickField()).toBeVisible();
-    //await registrationPage.fillIRCnickField(ircnick);
+    await registrationPage.fillIRCnickField(randomIRCnick);
     await expect(
       await registrationPage.getRegistartionConfirmButton()
     ).toBeVisible();
