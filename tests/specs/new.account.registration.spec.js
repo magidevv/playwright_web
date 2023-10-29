@@ -8,10 +8,19 @@ let registrationPage;
 
 const randomName = faker.internet.userName();
 const randomPassword = faker.internet.password();
+const confirmPassword = randomPassword;
 const randomFirstName = faker.person.firstName();
 const randomLastName = faker.person.lastName();
 const randomEmail = faker.internet.email();
 const randomIRCnick = faker.internet.userName();
+
+const randomBadName = faker.string.numeric(5);
+const randomBadPassword = faker.string.numeric(5);
+const randomBadPasswordConfirm = faker.string.numeric(4);
+const randomBadFirstName = faker.string.numeric(5);
+const randomBadLastName = faker.string.numeric(5);
+const randomBadEmail = faker.internet.userName();
+const randomBadIRCnick = faker.string.numeric(5);
 
 test.describe("Registration testing", () => {
   test.beforeEach(async ({ page }) => {
@@ -19,7 +28,7 @@ test.describe("Registration testing", () => {
     registrationPage = new RegistrationPage(page);
   });
 
-  test("New account registration with valid credentials", async () => {
+  test("New account registration with valid credentials", async ({ page }) => {
     await mainPage.openMainUrl();
     await expect(await mainPage.getRegistrationLink()).toBeVisible();
     await mainPage.clickRegistrationLink();
@@ -31,7 +40,7 @@ test.describe("Registration testing", () => {
     await expect(
       await registrationPage.getPasswordConfirmField()
     ).toBeVisible();
-    await registrationPage.fillPasswordConfirmField(randomPassword);
+    await registrationPage.fillPasswordConfirmField(confirmPassword);
     await expect(await registrationPage.getFirstNameField()).toBeVisible();
     await registrationPage.fillFirstNameField(randomFirstName);
     await expect(await registrationPage.getLastNameField()).toBeVisible();
@@ -47,40 +56,40 @@ test.describe("Registration testing", () => {
     ).toBeVisible();
     await registrationPage.clickRegistartionConfirmButton();
     await expect(await registrationPage.getConfirmationMsg()).toHaveText(
-      "Учётная запись успешно создана. Для активации Вашей учётной записи пройдите по ссылке, которая выслана Вам по электронной почте."
+      /^Account was successfully created. An email containing the instructions to activate your account was sent/
     );
   });
 
   test("New account registration with incorrect user data format", async () => {
     await registrationPage.openRegistrationUrl();
-    //await registrationPage.fillLoginField(username);
-    //await registrationPage.fillPasswordField(password);
-    //await registrationPage.fillPasswordConfirmField(password);
-    //await registrationPage.fillFirstNameField(firstname);
-    //await registrationPage.fillLastNameField(lastname);
-    //await registrationPage.fillEmailField(email);
-    //await registrationPage.fillIRCnickField(ircnick);
+    await registrationPage.fillLoginField(randomBadName);
+    await registrationPage.fillPasswordField(randomBadPassword);
+    await registrationPage.fillPasswordConfirmField(randomBadPasswordConfirm);
+    await registrationPage.fillFirstNameField(randomBadFirstName);
+    await registrationPage.fillLastNameField(randomBadLastName);
+    await registrationPage.fillEmailField(randomBadEmail);
+    await registrationPage.fillIRCnickField(randomBadIRCnick);
     await registrationPage.clickRegistartionConfirmButton();
-    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Пользователь имеет неверное значение"
+    await expect.soft(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      /Login is invalid/
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Пароль имеет неверное значение"
+      /Password is too short \(minimum is 8 characters\)/
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Пароль не совпадает с подтверждением"
+      /Password doesn't match confirmation/
+    );
+    await expect.soft(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      /First name is invalid/
+    );
+    await expect.soft(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      /Last name is invalid/
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Имя имеет неверное значение"
+      /Email is invalid/
     );
-    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Фамилия имеет неверное значение"
-    );
-    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Email имеет неверное значение"
-    );
-    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "IRC nick имеет неверное значение"
+    await expect.soft(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      /IRC nick is invalid/
     );
   });
 
@@ -88,22 +97,22 @@ test.describe("Registration testing", () => {
     await registrationPage.openRegistrationUrl();
     await registrationPage.clickRegistartionConfirmButton();
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Пользователь не может быть пустым"
+      /Login cannot be blank/
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Пароль недостаточной длины (не может быть меньше 8 символа)"
+      /Password is too short \(minimum is 8 characters\)/
+    );
+    await expect.soft(await registrationPage.getRegistartionErrorMsg()).toHaveText(
+      /Password confirmation cannot be blank/
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Подтверждение не может быть пустым"
+      /First name cannot be blank/
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Имя не может быть пустым"
+      /Last name cannot be blank/
     );
     await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Фамилия не может быть пустым"
-    );
-    await expect(await registrationPage.getRegistartionErrorMsg()).toHaveText(
-      "Email не может быть пустым"
+      /Email cannot be blank/
     );
   });
 });

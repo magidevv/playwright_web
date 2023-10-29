@@ -1,6 +1,6 @@
 const { Page } = require("./page");
 
-const userName = "//*[@id='sidebar']//a";
+const userName = "div#sidebar a.user.active";
 const userFirstName = "#user_firstname";
 const userLastName = "#user_lastname";
 const userEmail = "#user_mail";
@@ -17,23 +17,23 @@ class MyAccountPage extends Page {
   }
 
   async getUserName() {
-    await super.getElement(userName);
+    return await super.getElement(userName);
   }
 
   async getUserFirstName() {
-    await super.getElement(userFirstName);
+    return await super.getElement(userFirstName);
   }
 
   async getUserLastName() {
-    await super.getElement(userLastName);
+    return await super.getElement(userLastName);
   }
 
   async getUserEmail() {
-    await super.getElement(userEmail);
+    return await super.getElement(userEmail);
   }
 
   async getUserIRCnick() {
-    await super.getElement(userIRCnick);
+    return await super.getElement(userIRCnick);
   }
 }
 

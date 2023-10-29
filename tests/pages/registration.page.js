@@ -9,7 +9,7 @@ const emailField = "#user_mail";
 const emailHideCheckbox = "#pref_hide_mail";
 const languageSelect = "#user_language";
 const IRCnickField = "#user_custom_field_values_3";
-const registartionConfirmButton = "input[value='Принять']";
+const registartionConfirmButton = "input[type='submit']";
 const confirmationMsg = "#flash_notice";
 const registartionErrorMsg = "#errorExplanation";
 
@@ -24,7 +24,7 @@ class RegistrationPage extends Page {
   }
 
   async getLoginField() {
-    await super.getElement(loginField);
+    return await super.getElement(loginField);
   }
 
   async fillLoginField(username) {
@@ -32,7 +32,7 @@ class RegistrationPage extends Page {
   }
 
   async getPasswordField() {
-    await super.getElement(passwordField);
+    return await super.getElement(passwordField);
   }
 
   async fillPasswordField(password) {
@@ -40,7 +40,7 @@ class RegistrationPage extends Page {
   }
 
   async getPasswordConfirmField() {
-    await super.getElement(passwordConfirmField);
+    return await super.getElement(passwordConfirmField);
   }
 
   async fillPasswordConfirmField(password) {
@@ -48,7 +48,7 @@ class RegistrationPage extends Page {
   }
 
   async getFirstNameField() {
-    await super.getElement(firstNameField);
+    return await super.getElement(firstNameField);
   }
 
   async fillFirstNameField(firstname) {
@@ -56,7 +56,7 @@ class RegistrationPage extends Page {
   }
 
   async getLastNameField() {
-    await super.getElement(lastNameField);
+    return await super.getElement(lastNameField);
   }
 
   async fillLastNameField(lastname) {
@@ -64,7 +64,7 @@ class RegistrationPage extends Page {
   }
 
   async getEmailField() {
-    await super.getElement(emailField);
+    return await super.getElement(emailField);
   }
 
   async fillEmailField(email) {
@@ -72,15 +72,15 @@ class RegistrationPage extends Page {
   }
 
   async getEmailHideCheckbox() {
-    await super.getElement(emailHideCheckbox);
+    return await super.getElement(emailHideCheckbox);
   }
 
   async getLanguageSelect() {
-    await super.getElement(languageSelect);
+    return await super.getElement(languageSelect);
   }
 
   async getIRCnickField() {
-    await super.getElement(IRCnickField);
+    return await super.getElement(IRCnickField);
   }
 
   async fillIRCnickField(ircnick) {
@@ -88,7 +88,7 @@ class RegistrationPage extends Page {
   }
 
   async getRegistartionConfirmButton() {
-    await super.getElement(registartionConfirmButton);
+    return await super.getElement(registartionConfirmButton);
   }
 
   async clickRegistartionConfirmButton() {
@@ -96,11 +96,11 @@ class RegistrationPage extends Page {
   }
 
   async getConfirmationMsg() {
-    await super.getElement(confirmationMsg);
+    return await super.getElement(confirmationMsg);
   }
 
   async getRegistartionErrorMsg() {
-    await super.getElement(registartionErrorMsg);
+    return await super.getElement(registartionErrorMsg);
   }
 }
 

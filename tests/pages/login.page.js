@@ -16,7 +16,7 @@ class LoginPage extends Page {
   }
 
   async getLoginField() {
-    await super.getElement(loginField);
+    return await super.getElement(loginField);
   }
 
   async fillLoginField(username) {
@@ -24,7 +24,7 @@ class LoginPage extends Page {
   }
 
   async getPasswordField() {
-    await super.getElement(passwordField);
+    return await super.getElement(passwordField);
   }
 
   async fillPasswordField(password) {
@@ -32,7 +32,7 @@ class LoginPage extends Page {
   }
 
   async getLoginButton() {
-    await super.getElement(loginButton);
+    return await super.getElement(loginButton);
   }
 
   async clickLoginButton() {
@@ -40,7 +40,7 @@ class LoginPage extends Page {
   }
 
   async getLoginErrorMsg() {
-    await super.getElement(loginErrorMsg);
+    return await super.getElement(loginErrorMsg);
   }
 }
 

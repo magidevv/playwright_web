@@ -1,8 +1,8 @@
 const { Page } = require("./page");
 
 const userFirstLastName = "//h2/text()";
-const userName = "//li[contains(text(),'Пользователь:')]";
-const userEmail = "//li[contains(text(),'Email:')]";
+const userName = "//li[text()][1]";
+const userEmail = "//li[text()][2]";
 const userIRCnick = "li.string_cf.cf_3";
 const myAccountLink = "a[href='/my/account']";
 
@@ -13,23 +13,23 @@ class UserPage extends Page {
   }
 
   async getUserFirstLastName() {
-    await super.getElement(userFirstLastName);
+    return await super.getElement(userFirstLastName);
   }
 
   async getUserName() {
-    await super.getElement(userName);
+    return await super.getElement(userName);
   }
 
   async getUserEmail() {
-    await super.getElement(userEmail);
+    return await super.getElement(userEmail);
   }
 
   async getUserIRCnick() {
-    await super.getElement(userIRCnick);
+    return await super.getElement(userIRCnick);
   }
 
   async getMyAccountLink() {
-    await super.getElement(myAccountLink);
+    return await super.getElement(myAccountLink);
   }
 
   async clickMyAccountLink() {
