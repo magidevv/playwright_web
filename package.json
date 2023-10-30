@@ -3,13 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test-browser": "npx playwright test",
+    "test-UI": "npx playwright test --ui",
+    "test-headed": "npx playwright test --headed",
+    "test-login": "npx playwright test login.spec.js",
+    "test-registration": "npx playwright test registration.spec.js",
+    "report-create": "npx allure generate allure-results --clean",
+    "report-open": "npx allure open allure-report"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
     "@playwright/test": "^1.39.0",
-    "@types/node": "^20.8.9"
+    "@types/node": "^20.8.9",
+    "allure-commandline": "^2.24.1",
+    "allure-playwright": "^2.9.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
   }
 }
