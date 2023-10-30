@@ -15,8 +15,7 @@ class LoginPage extends Page {
   }
 
   async openLoginUrl() {
-    const baseURL = process.env.ENV;
-    await this.openUrl(baseURL + "/login");
+    await super.openUrl("/login");
   }
 
   async getLoginField() {

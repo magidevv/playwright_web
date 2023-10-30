@@ -11,8 +11,7 @@ class MainPage extends Page {
   }
 
   async openMainUrl() {
-    const baseURL = process.env.ENV;
-    await this.openUrl(baseURL);
+    await super.openUrl();
   }
 
   async getLoginLink() {
