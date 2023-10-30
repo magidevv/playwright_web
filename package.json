@@ -9,7 +9,7 @@
     "test-headed": "npx playwright test --headed",
     "test-login": "npx playwright test login.spec.js",
     "test-registration": "npx playwright test registration.spec.js",
-    "report-create": "npx allure generate allure-results --clean",
+    "report-create": "npx allure generate my-allure-results -o allure-report --clean",
     "report-open": "npx allure open allure-report"
   },
   "keywords": [],
