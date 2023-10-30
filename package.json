@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-browser": "npx playwright test",
+    "test-headless": "npx playwright test",
     "test-UI": "npx playwright test --ui",
     "test-headed": "npx playwright test --headed",
     "test-login": "npx playwright test login.spec.js",

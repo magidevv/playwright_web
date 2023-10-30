@@ -53,7 +53,7 @@ This project provides several scripts to run Playwright tests:
 
 - To run tests in the headless browser mode, use:
   ```shell
-  npm run test-browser
+  npm run test-headless
   ```
 
 - To run tests with the Playwright UI, use:
@@ -71,7 +71,7 @@ This project provides several scripts to run Playwright tests:
   npm run test-login
   ```
 
-- To run a different test, such as `new.account.registration.spec.js`, use:
+- To run a different test, such as `registration.spec.js`, use:
   ```shell
   npm run test-registration
   ```
