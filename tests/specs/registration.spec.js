@@ -22,6 +22,22 @@ const randomBadLastName = faker.string.numeric(5);
 const randomBadEmail = faker.internet.userName();
 const randomBadIRCnick = faker.string.numeric(5);
 
+const {
+  INVALID_LOGIN,
+  INVALID_PASSWORD,
+  INVALID_PASSWORD_CONFIRM,
+  INVALID_FIRSTNAME,
+  INVALID_LASTNAME,
+  INVALID_EMAIL,
+  INVALID_IRCNICK,
+  BLANK_LOGIN,
+  BLANK_PASSWORD,
+  BLANK_PASSWORD_CONFIRM,
+  BLANK_FIRSTNAME,
+  BLANK_LASTNAME,
+  BLANK_EMAIL
+} = process.env;
+
 test.describe("Registration testing", () => {
   test.beforeEach(async ({ page }) => {
     mainPage = new MainPage(page);
@@ -96,11 +112,11 @@ test.describe("Registration testing", () => {
     await registrationPage.openRegistrationUrl();
     await registrationPage.clickRegistrationConfirmButton();
     await registrationPage.checkTextInList([
-      "Email cannot be blank",
-      "Login cannot be blank",
-      "First name cannot be blank",
-      "Last name cannot be blank",
-      "Password is too short (minimum is 8 characters)",
+      BLANK_EMAIL,
+      BLANK_LOGIN,
+      BLANK_FIRSTNAME,
+      BLANK_LASTNAME,
+      BLANK_PASSWORD,
     ]);
     await registrationPage.checkRedHighlightFields([
       "login",
