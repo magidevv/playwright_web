@@ -14,7 +14,8 @@ class MyAccountPage extends Page {
   }
 
   async openMyAccountUrl() {
-    await super.openUrl("/my/account");
+    const baseURL = process.env.ENV;
+    await this.openUrl(baseURL + "/my/account");
   }
 
   async getUserName() {

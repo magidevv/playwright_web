@@ -21,7 +21,8 @@ class RegistrationPage extends Page {
   }
 
   async openRegistrationUrl() {
-    await super.openUrl("/account/register");
+    const baseURL = process.env.ENV;
+    await this.openUrl(baseURL + "/account/register");
   }
 
   async getLoginField() {

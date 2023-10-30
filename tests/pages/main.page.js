@@ -11,7 +11,8 @@ class MainPage extends Page {
   }
 
   async openMainUrl() {
-    await super.openUrl();
+    const baseURL = process.env.ENV;
+    await this.openUrl(baseURL);
   }
 
   async getLoginLink() {
@@ -20,10 +21,6 @@ class MainPage extends Page {
 
   async clickLoginLink() {
     await super.clickElement(loginLink);
-  }
-
-  async openMyUrl() {
-    await super.openUrl("/my/page");
   }
 
   async getLoggedAsUser() {

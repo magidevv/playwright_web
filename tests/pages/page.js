@@ -7,7 +7,7 @@ class Page {
   }
 
   async openUrl(url) {
-    await this.page.goto(url == undefined ? "/" : url);
+    await this.page.goto(url == undefined ? "https://www.redmine.org" : url);
     await this.page.waitForLoadState("load");
   }
 
