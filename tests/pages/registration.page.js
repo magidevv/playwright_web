@@ -1,3 +1,4 @@
+const { expect } = require("@playwright/test");
 const { Page } = require("./page");
 
 const loginField = "#user_login";
@@ -9,9 +10,9 @@ const emailField = "#user_mail";
 const emailHideCheckbox = "#pref_hide_mail";
 const languageSelect = "#user_language";
 const IRCnickField = "#user_custom_field_values_3";
-const registartionConfirmButton = "input[type='submit']";
+const registrationConfirmButton = "input[type='submit']";
 const confirmationMsg = "#flash_notice";
-const registartionErrorMsg = "#errorExplanation";
+const registrationErrorMsg = "#errorExplanation";
 
 class RegistrationPage extends Page {
   constructor(page) {
@@ -27,48 +28,24 @@ class RegistrationPage extends Page {
     return await super.getElement(loginField);
   }
 
-  async fillLoginField(username) {
-    await super.fillElement(loginField, username);
-  }
-
   async getPasswordField() {
     return await super.getElement(passwordField);
-  }
-
-  async fillPasswordField(password) {
-    await super.fillElement(passwordField, password);
   }
 
   async getPasswordConfirmField() {
     return await super.getElement(passwordConfirmField);
   }
 
-  async fillPasswordConfirmField(password) {
-    await super.fillElement(passwordConfirmField, password);
-  }
-
   async getFirstNameField() {
     return await super.getElement(firstNameField);
-  }
-
-  async fillFirstNameField(firstname) {
-    await super.fillElement(firstNameField, firstname);
   }
 
   async getLastNameField() {
     return await super.getElement(lastNameField);
   }
 
-  async fillLastNameField(lastname) {
-    await super.fillElement(lastNameField, lastname);
-  }
-
   async getEmailField() {
     return await super.getElement(emailField);
-  }
-
-  async fillEmailField(email) {
-    await super.fillElement(emailField, email);
   }
 
   async getEmailHideCheckbox() {
@@ -83,24 +60,67 @@ class RegistrationPage extends Page {
     return await super.getElement(IRCnickField);
   }
 
-  async fillIRCnickField(ircnick) {
+  async getRegistrationConfirmButton() {
+    return await super.getElement(registrationConfirmButton);
+  }
+
+  async displayRegistrationForm() {
+    await expect(await this.getLoginField()).toBeVisible();
+    await expect(await this.getPasswordField()).toBeVisible();
+    await expect(await this.getPasswordConfirmField()).toBeVisible();
+    await expect(await this.getFirstNameField()).toBeVisible();
+    await expect(await this.getLastNameField()).toBeVisible();
+    await expect(await this.getEmailField()).toBeVisible();
+    await expect(await this.getEmailHideCheckbox()).toBeVisible();
+    await expect(await this.getLanguageSelect()).toBeVisible();
+    await expect(await this.getIRCnickField()).toBeVisible();
+    await expect(await this.getRegistrationConfirmButton()).toBeVisible();
+  }
+
+  async fillRegistrationForm(
+    username,
+    password,
+    confirmPassword,
+    firstname,
+    lastname,
+    email,
+    ircnick
+  ) {
+    await super.fillElement(loginField, username);
+    await super.fillElement(passwordField, password);
+    await super.fillElement(passwordConfirmField, confirmPassword);
+    await super.fillElement(firstNameField, firstname);
+    await super.fillElement(lastNameField, lastname);
+    await super.fillElement(emailField, email);
     await super.fillElement(IRCnickField, ircnick);
   }
 
-  async getRegistartionConfirmButton() {
-    return await super.getElement(registartionConfirmButton);
-  }
-
-  async clickRegistartionConfirmButton() {
-    await super.clickElement(registartionConfirmButton);
+  async clickRegistrationConfirmButton() {
+    await super.clickElement(registrationConfirmButton);
   }
 
   async getConfirmationMsg() {
     return await super.getElement(confirmationMsg);
   }
 
-  async getRegistartionErrorMsg() {
-    return await super.getElement(registartionErrorMsg);
+  async getRegistrationErrorMsg() {
+    return await super.getElement(registrationErrorMsg);
+  }
+
+  async checkTextInList(list) {
+    for (let i = 0; i < list.length; i++) {
+      const selector = `#errorExplanation li:nth-child(${i + 1})`;
+      const listItem = await super.getElement(selector);
+      await expect(listItem).toHaveText(list[i]);
+    }
+  }
+
+  async checkRedHighlightFields(fields) {
+    for (const field of fields) {
+      const selector = `label[for="user_${field}"]`;
+      const errorLabel = await super.getElement(selector);
+      await expect.soft(errorLabel).toHaveCSS("color", "rgb(187, 0, 0)");
+    }
   }
 }
 

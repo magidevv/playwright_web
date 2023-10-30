@@ -9,6 +9,16 @@ let loginPage;
 let userPage;
 let myAccountPage;
 
+const {
+  USER_LOGIN,
+  USER_FIRST_NAME,
+  USER_LAST_NAME,
+  USER_EMAIL,
+  USER_IRC_NICK,
+  BLANK_LOGIN,
+  BLANK_PASSWORD
+} = process.env;
+
 test.describe("Login testing", () => {
   test.beforeEach(async ({ page }) => {
     mainPage = new MainPage(page);
@@ -22,44 +32,38 @@ test.describe("Login testing", () => {
     await expect(await mainPage.getLoginLink()).toBeVisible();
     await mainPage.clickLoginLink();
     await expect(page).toHaveURL(/\/login$/);
-    await expect(await loginPage.getLoginField()).toBeVisible();
-    await loginPage.fillLoginField("elona_musk");
-    await expect(await loginPage.getPasswordField()).toBeVisible();
-    await loginPage.fillPasswordField("12344321q");
-    await expect(await loginPage.getLoginButton()).toBeVisible();
+    await loginPage.displayLoginForm();
+    await loginPage.fillLoginForm();
     await loginPage.clickLoginButton();
     await expect(page).toHaveURL(/\/$/);
     await expect(await mainPage.getLoggedAsUser()).toBeVisible();
     await mainPage.clickLoggedAsUser();
     await expect(page).toHaveURL(/users\//);
-    // await expect(await userPage.getUserFirstLastName()).toHaveText(
-    //   /Elona Musk$/
+    // await expect(await userPage.getUserFirstLastName()).toContainText(
+    //   "Elona Musk"
     // );
-    await expect(await userPage.getUserName()).toHaveText(/elona_musk$/);
-    await expect(await userPage.getUserEmail()).toHaveText(
-      /jf5gophgii@zipcatfish.com$/
-    );
-    await expect(await userPage.getUserIRCnick()).toHaveText(/elonamusk$/);
+    await userPage.checkUserCredentials(USER_LOGIN, USER_EMAIL, USER_IRC_NICK);
     await expect(await userPage.getMyAccountLink()).toBeVisible();
     await userPage.clickMyAccountLink();
     await expect(page).toHaveURL(/my\/account$/);
-    await expect(await myAccountPage.getUserName()).toHaveText("elona_musk");
-    await expect(await myAccountPage.getUserFirstName()).toHaveValue("Elona");
-    await expect(await myAccountPage.getUserLastName()).toHaveValue("Musk");
-    await expect(await myAccountPage.getUserEmail()).toHaveValue(
-      "jf5gophgii@zipcatfish.com"
+    await myAccountPage.checkUserCredentials(
+      USER_LOGIN,
+      USER_FIRST_NAME,
+      USER_LAST_NAME,
+      USER_EMAIL,
+      USER_IRC_NICK
     );
-    await expect(await myAccountPage.getUserIRCnick()).toHaveValue("elonamusk");
   });
 
-  test("Login with empty required fields", async ({ page }) => {
+  test("Login with empty required fields", async () => {
     await loginPage.openLoginUrl();
     await loginPage.clickLoginButton();
-    await expect.soft(await loginPage.getLoginErrorMsg()).toHaveText(
-      /Login cannot be blank/
-    );
-    await expect.soft(await loginPage.getLoginErrorMsg()).toHaveText(
-      /Password is too short \(minimum is 8 characters\)/
-    );
+    await expect
+      .soft(await loginPage.getLoginErrorMsg())
+      .toContainText(BLANK_LOGIN);
+    await expect
+      .soft(await loginPage.getLoginErrorMsg())
+      .toContainText(BLANK_PASSWORD);
+    await loginPage.checkRedHighlightFields(["login", "password"]);
   });
 });

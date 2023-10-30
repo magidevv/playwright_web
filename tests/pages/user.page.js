@@ -1,3 +1,4 @@
+const { expect } = require("@playwright/test");
 const { Page } = require("./page");
 
 const userFirstLastName = "//h2/text()";
@@ -30,6 +31,12 @@ class UserPage extends Page {
 
   async getMyAccountLink() {
     return await super.getElement(myAccountLink);
+  }
+
+  async checkUserCredentials(login, email, IRCnick) {
+    await expect(await this.getUserName()).toContainText(login);
+    await expect(await this.getUserEmail()).toContainText(email);
+    await expect(await this.getUserIRCnick()).toContainText(IRCnick);
   }
 
   async clickMyAccountLink() {
