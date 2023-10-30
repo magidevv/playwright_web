@@ -2,3 +2,9 @@ node_modules/
 /test-results/
 /playwright-report/
 /playwright/.cache/
+package-lock.json
+.vscode
+my-allure-results/
+allure-results/
+allure-report/
+.env
