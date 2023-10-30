@@ -23,6 +23,7 @@ const randomBadEmail = faker.internet.userName();
 const randomBadIRCnick = faker.string.numeric(5);
 
 const {
+  CONFIRM_MSG,
   INVALID_LOGIN,
   INVALID_PASSWORD,
   INVALID_PASSWORD_CONFIRM,
@@ -32,7 +33,6 @@ const {
   INVALID_IRCNICK,
   BLANK_LOGIN,
   BLANK_PASSWORD,
-  BLANK_PASSWORD_CONFIRM,
   BLANK_FIRSTNAME,
   BLANK_LASTNAME,
   BLANK_EMAIL

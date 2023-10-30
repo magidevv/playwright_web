@@ -64,6 +64,6 @@ test.describe("Login testing", () => {
     await expect
       .soft(await loginPage.getLoginErrorMsg())
       .toContainText(BLANK_PASSWORD);
-    await loginPage.checkRedHighlightFields(["login", "password"]);
+    await loginPage.checkRedHighlightFields(["username", "password"]);
   });
 });

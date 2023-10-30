@@ -38,7 +38,7 @@ class MyAccountPage extends Page {
   }
 
   async checkUserCredentials(login, firstname, lastname, email, IRCnick) {
-    await expect(await this.getUserName()).toHaveValue(login);
+    await expect(await this.getUserName()).toHaveText(login);
     await expect(await this.getUserFirstName()).toHaveValue(firstname);
     await expect(await this.getUserLastName()).toHaveValue(lastname);
     await expect(await this.getUserEmail()).toHaveValue(email);
