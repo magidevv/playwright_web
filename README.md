@@ -12,6 +12,9 @@ The repository includes the following key directories and files:
 - `allure-results`: Directory for storing Allure test report data.
 - `allure-report`: Directory for generated Allure test reports.
 - `my-allure-report`: Additional directory for generated Allure test reports.
+- `data`: Directory for project data files.
+  - `system-messages.json`: JSON file containing system messages data.
+  - `test-data.js`: JavaScript file containing test-specific data.
 - `tests`: Directory for organizing test files.
   - `pages`: Test page objects.
   - `specs`: Test spec files.

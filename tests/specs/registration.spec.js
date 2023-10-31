@@ -1,42 +1,11 @@
 const { test, expect } = require("@playwright/test");
-const { faker } = require("@faker-js/faker");
 const { MainPage } = require("../pages/main.page");
 const { RegistrationPage } = require("../pages/registration.page");
+const testData = require("../../data/test-data.js");
+const systemMessages = require("../../data/system-messages.json");
 
 let mainPage;
 let registrationPage;
-
-const randomName = faker.internet.userName();
-const randomPassword = faker.internet.password();
-const confirmPassword = randomPassword;
-const randomFirstName = faker.person.firstName();
-const randomLastName = faker.person.lastName();
-const randomEmail = faker.internet.email();
-const randomIRCnick = faker.internet.userName();
-
-const randomBadName = faker.string.numeric(5);
-const randomBadPassword = faker.string.numeric(5);
-const randomBadPasswordConfirm = faker.string.numeric(4);
-const randomBadFirstName = faker.string.numeric(5);
-const randomBadLastName = faker.string.numeric(5);
-const randomBadEmail = faker.internet.userName();
-const randomBadIRCnick = faker.string.numeric(5);
-
-const {
-  CONFIRM_MSG,
-  INVALID_LOGIN,
-  INVALID_PASSWORD,
-  INVALID_PASSWORD_CONFIRM,
-  INVALID_FIRSTNAME,
-  INVALID_LASTNAME,
-  INVALID_EMAIL,
-  INVALID_IRCNICK,
-  BLANK_LOGIN,
-  BLANK_PASSWORD,
-  BLANK_FIRSTNAME,
-  BLANK_LASTNAME,
-  BLANK_EMAIL
-} = process.env;
 
 test.describe("Registration testing", () => {
   test.beforeEach(async ({ page }) => {
@@ -51,60 +20,60 @@ test.describe("Registration testing", () => {
     await expect(page).toHaveURL(/account\/register$/);
     await registrationPage.displayRegistrationForm();
     await registrationPage.fillRegistrationForm(
-      randomName,
-      randomPassword,
-      confirmPassword,
-      randomFirstName,
-      randomLastName,
-      randomEmail,
-      randomIRCnick
+      testData.randomName,
+      testData.randomPassword,
+      testData.confirmPassword,
+      testData.randomFirstName,
+      testData.randomLastName,
+      testData.randomEmail,
+      testData.randomIRCnick
     );
     await registrationPage.clickRegistrationConfirmButton();
     await expect(await registrationPage.getConfirmationMsg()).toContainText(
-      CONFIRM_MSG
+      systemMessages["confirm-msg"]
     );
   });
 
   test("New account registration with incorrect user data format", async () => {
     await registrationPage.openRegistrationUrl();
     await registrationPage.fillRegistrationForm(
-      randomBadName,
-      randomBadPassword,
-      randomBadPasswordConfirm,
-      randomBadFirstName,
-      randomBadLastName,
-      randomBadEmail,
-      randomBadIRCnick
+      testData.randomBadName,
+      testData.randomBadPassword,
+      testData.randomBadPasswordConfirm,
+      testData.randomBadFirstName,
+      testData.randomBadLastName,
+      testData.randomBadEmail,
+      testData.randomBadIRCnick
     );
     await registrationPage.clickRegistrationConfirmButton();
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(INVALID_LOGIN);
+      .toContainText(systemMessages["invalid-login"]);
     await expect(
       await registrationPage.getRegistrationErrorMsg()
-    ).toContainText(INVALID_PASSWORD);
+    ).toContainText(systemMessages["invalid-password"]);
     await expect(
       await registrationPage.getRegistrationErrorMsg()
-    ).toContainText(INVALID_PASSWORD_CONFIRM);
+    ).toContainText(systemMessages["invalid-password-confirm"]);
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(INVALID_FIRSTNAME);
+      .toContainText(systemMessages["invalid-firstname"]);
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(INVALID_LASTNAME);
+      .toContainText(systemMessages["invalid-lastname"]);
     await expect(
       await registrationPage.getRegistrationErrorMsg()
-    ).toContainText(INVALID_EMAIL);
+    ).toContainText(systemMessages["invalid-email"]);
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(INVALID_IRCNICK);
+      .toContainText(systemMessages["invalid-ircnick"]);
     await registrationPage.checkRedHighlightFields([
       "login",
       "password",
       "password_confirmation",
       "firstname",
       "lastname",
-      "mail",
+      "mail"
     ]);
   });
 
@@ -112,11 +81,11 @@ test.describe("Registration testing", () => {
     await registrationPage.openRegistrationUrl();
     await registrationPage.clickRegistrationConfirmButton();
     await registrationPage.checkTextInList([
-      BLANK_EMAIL,
-      BLANK_LOGIN,
-      BLANK_FIRSTNAME,
-      BLANK_LASTNAME,
-      BLANK_PASSWORD,
+      systemMessages["blank-email"],
+      systemMessages["blank-login"],
+      systemMessages["blank-firstname"],
+      systemMessages["blank-lastname"],
+      systemMessages["blank-password"]
     ]);
     await registrationPage.checkRedHighlightFields([
       "login",
@@ -124,7 +93,7 @@ test.describe("Registration testing", () => {
       "password_confirmation",
       "firstname",
       "lastname",
-      "mail",
+      "mail"
     ]);
   });
 });

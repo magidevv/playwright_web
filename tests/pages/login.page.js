@@ -6,8 +6,6 @@ const passwordField = "#password";
 const loginButton = "#login-submit";
 const loginErrorMsg = "#flash_error";
 
-const { USER_LOGIN, USER_PASSWORD } = process.env;
-
 class LoginPage extends Page {
   constructor(page) {
     super(page);
@@ -32,9 +30,9 @@ class LoginPage extends Page {
     await expect(await this.getLoginButton()).toBeVisible();
   }
 
-  async fillLoginForm() {
-    await super.fillElement(loginField, USER_LOGIN);
-    await super.fillElement(passwordField, USER_PASSWORD);
+  async fillLoginForm(login, password) {
+    await super.fillElement(loginField, login);
+    await super.fillElement(passwordField, password);
   }
 
   async getLoginButton() {

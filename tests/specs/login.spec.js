@@ -3,21 +3,21 @@ const { MainPage } = require("../pages/main.page");
 const { LoginPage } = require("../pages/login.page");
 const { UserPage } = require("../pages/user.page");
 const { MyAccountPage } = require("../pages/my.account.page");
+const systemMessages = require("../../data/system-messages.json");
+
+const {
+  USER_LOGIN,
+  USER_PASSWORD,
+  USER_FIRST_NAME,
+  USER_LAST_NAME,
+  USER_EMAIL,
+  USER_IRC_NICK
+} = process.env;
 
 let mainPage;
 let loginPage;
 let userPage;
 let myAccountPage;
-
-const {
-  USER_LOGIN,
-  USER_FIRST_NAME,
-  USER_LAST_NAME,
-  USER_EMAIL,
-  USER_IRC_NICK,
-  BLANK_LOGIN,
-  BLANK_PASSWORD
-} = process.env;
 
 test.describe("Login testing", () => {
   test.beforeEach(async ({ page }) => {
@@ -33,7 +33,7 @@ test.describe("Login testing", () => {
     await mainPage.clickLoginLink();
     await expect(page).toHaveURL(/\/login$/);
     await loginPage.displayLoginForm();
-    await loginPage.fillLoginForm();
+    await loginPage.fillLoginForm(USER_LOGIN, USER_PASSWORD);
     await loginPage.clickLoginButton();
     await expect(page).toHaveURL(/\/$/);
     await expect(await mainPage.getLoggedAsUser()).toBeVisible();
@@ -60,10 +60,10 @@ test.describe("Login testing", () => {
     await loginPage.clickLoginButton();
     await expect
       .soft(await loginPage.getLoginErrorMsg())
-      .toContainText(BLANK_LOGIN);
+      .toContainText(systemMessages["blank-login"]);
     await expect
       .soft(await loginPage.getLoginErrorMsg())
-      .toContainText(BLANK_PASSWORD);
+      .toContainText(systemMessages["blank-password"]);
     await loginPage.checkRedHighlightFields(["username", "password"]);
   });
 });
