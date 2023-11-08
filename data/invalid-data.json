@@ -1,0 +1,23 @@
+{
+  "numeric-username": "12345",
+  "username-with-special-chars": "user123#",
+  "username-with-space": "user name",
+  
+  "short-password": "pass",
+  "numeric-password": "12345",
+  
+  "numeric-first-name": "12345",
+  "alpha-numeric-first-name": "John12",
+  "first-name-with-space": "First Name",
+  "first-name-with-special-chars": "First#Name",
+  
+  "numeric-last-name": "12345",
+  "last-name-with-space": "Last Name",
+  "alpha-numeric-last-name": "Doe123",
+  "last-name-with-special-chars": "Last#Name",
+  
+  "email-without-domain": "email.com",
+  "email-with-no-username": "user@.com",
+  "email-with-no-domain": "user@example",
+  "email-with-empty-domain": "user@example."
+}

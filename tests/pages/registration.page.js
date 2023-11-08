@@ -20,6 +20,22 @@ class RegistrationPage extends Page {
     this.page = page;
   }
 
+  static confirmation_msg =
+    "Account was successfully created. An email containing the instructions to activate your account was sent";
+  static invalidUsername_error = "Login is invalid";
+  static invalidPassword_error =
+    "Password is too short (minimum is 8 characters)";
+  static invalidPasswordConfirm_error = "Password doesn't match confirmation";
+  static invalidFirstName_error = "First name is invalid";
+  static invalidLastName_error = "Last name is invalid";
+  static invalidEmail_error = "Email is invalid";
+  static invalidIRCnick_error = "ITC nick is invalid";
+  static blankUsername_error = "Login cannot be blank";
+  static blankPassword_error = "Password cannot be blank";
+  static blankFirstName_error = "First name cannot be blank";
+  static blankLastName_error = "Last name cannot be blank";
+  static blankEmail_error = "Email cannot be blank";
+
   async openRegistrationUrl() {
     await super.openUrl("/account/register");
   }
@@ -124,4 +140,4 @@ class RegistrationPage extends Page {
   }
 }
 
-module.exports = { RegistrationPage };
+export default RegistrationPage;

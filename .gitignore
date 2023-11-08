@@ -3,7 +3,8 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 package-lock.json
-.vscode
+.vscode/
 my-allure-results/
 allure-results/
 allure-report/
+.env

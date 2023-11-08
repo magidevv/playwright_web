@@ -12,6 +12,10 @@ class LoginPage extends Page {
     this.page = page;
   }
 
+  static blankUsername_error = "Login cannot be blank";
+  static blankPassword_error =
+    "Password is too short (minimum is 8 characters)";
+
   async openLoginUrl() {
     await super.openUrl("/login");
   }
@@ -56,4 +60,4 @@ class LoginPage extends Page {
   }
 }
 
-module.exports = { LoginPage };
+export default LoginPage;

@@ -4,13 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-headless": "npx playwright test",
-    "test-UI": "npx playwright test --ui",
-    "test-headed": "npx playwright test --headed",
-    "test-login": "npx playwright test login.spec.js",
-    "test-registration": "npx playwright test registration.spec.js",
-    "report-create": "npx allure generate my-allure-results -o allure-report --clean",
-    "report-open": "npx allure open allure-report"
+    "test:all": "npx playwright test",
+    "test:all:headed": "npx playwright test --headed",
+    "test:login": "npx playwright test login.spec.js",
+    "test:registration": "npx playwright test registration.spec.js",
+    "report:create": "npx allure generate my-allure-results -o allure-report --clean",
+    "report:open": "npx allure open allure-report"
   },
   "keywords": [],
   "author": "",

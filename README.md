@@ -7,20 +7,13 @@ This repository contains the source code and test suites for a web application t
 The repository includes the following key directories and files:
 
 - `.github`: Configuration files for GitHub actions.
-- `node_modules`: Directory containing project dependencies.
-- `test-results`: Placeholder for storing test results and reports.
-- `allure-results`: Directory for storing Allure test report data.
-- `allure-report`: Directory for generated Allure test reports.
-- `my-allure-report`: Additional directory for generated Allure test reports.
 - `data`: Directory for project data files.
-  - `system-messages.json`: JSON file containing system messages data.
-  - `test-data.js`: JavaScript file containing test-specific data.
+- `helper`: Directory for helper classes for testing.
 - `tests`: Directory for organizing test files.
   - `pages`: Test page objects.
   - `specs`: Test spec files.
-- `.env`: Environment variables configuration file (if needed).
+- `.env.example`: Environment variables configuration file (for example).
 - `.gitignore`: File specifying which files and directories to ignore in version control.
-- `package-lock.json`: Lock file specifying the exact versions of dependencies.
 - `package.json`: Project's package file with dependencies and scripts.
 - `playwright.config.js`: Configuration file for Playwright tests.
 
@@ -30,6 +23,7 @@ To run this project, you need to have the following software and system requirem
 
 - Node.js 16 or higher
 - Windows 10 or a compatible operating system
+- Java
 
 ## Installation
 
@@ -50,33 +44,37 @@ To install and set up this project from the GitHub repository, follow these step
    npm install
    ```
 
+4. Install Playwright browsers:
+   ```shell
+   npx playwright install
+   ```
+
+5. Set Environment Variables:
+    Create a copy of .env.example as .env.
+    Fill in the necessary environment variables required for the project.
+
 ## Launching Scripts
 
 This project provides several scripts to run Playwright tests:
 
 - To run tests in the headless browser mode, use:
   ```shell
-  npm run test-headless
-  ```
-
-- To run tests with the Playwright UI, use:
-  ```shell
-  npm run test-UI
+  npx run test:all
   ```
 
 - To run tests in headed mode (visible browser window), use:
   ```shell
-  npm run test-headed
+  npx run test:all:headed
   ```
 
 - To run a specific test, for example, `login.spec.js`, use:
   ```shell
-  npm run test-login
+  npx run test:login
   ```
 
 - To run a different test, such as `registration.spec.js`, use:
   ```shell
-  npm run test-registration
+  npx run test:registration
   ```
 
 ## Creating and Viewing Reports
@@ -85,10 +83,10 @@ To generate and view Allure test reports, use the following scripts:
 
 - To create the report, run:
   ```shell
-  npm run report-create
+  npx run report:create
   ```
 
 - To open the report in your default web browser, run:
   ```shell
-  npm run report-open
+  npx run report:open
   ```

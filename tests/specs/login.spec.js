@@ -1,39 +1,26 @@
 const { test, expect } = require("@playwright/test");
-const { MainPage } = require("../pages/main.page");
-const { LoginPage } = require("../pages/login.page");
-const { UserPage } = require("../pages/user.page");
-const { MyAccountPage } = require("../pages/my.account.page");
-const systemMessages = require("../../data/system-messages.json");
+import MainPage from "../pages/main.page";
+import LoginPage from "../pages/login.page";
+import UserPage from "../pages/user.page";
+import MyAccountPage from "../pages/my.account.page";
 
-const {
-  USER_LOGIN,
-  USER_PASSWORD,
-  USER_FIRST_NAME,
-  USER_LAST_NAME,
-  USER_EMAIL,
-  USER_IRC_NICK
-} = process.env;
-
-let mainPage;
-let loginPage;
-let userPage;
-let myAccountPage;
+const validUsername = process.env.USER_LOGIN;
+const validPassword = process.env.USER_PASSWORD;
+const validFirstName = process.env.USER_FIRST_NAME;
+const validLastName = process.env.USER_LAST_NAME;
+const validEmail = process.env.USER_EMAIL;
+const validIRCnick = process.env.USER_IRC_NICK;
 
 test.describe("Login testing", () => {
-  test.beforeEach(async ({ page }) => {
-    mainPage = new MainPage(page);
-    loginPage = new LoginPage(page);
-    userPage = new UserPage(page);
-    myAccountPage = new MyAccountPage(page);
-  });
-
   test("Correct login with valid credentials", async ({ page }) => {
+    const mainPage = new MainPage(page);
     await mainPage.openMainUrl();
     await expect(await mainPage.getLoginLink()).toBeVisible();
     await mainPage.clickLoginLink();
     await expect(page).toHaveURL(/\/login$/);
+    const loginPage = new LoginPage(page);
     await loginPage.displayLoginForm();
-    await loginPage.fillLoginForm(USER_LOGIN, USER_PASSWORD);
+    await loginPage.fillLoginForm(validUsername, validPassword);
     await loginPage.clickLoginButton();
     await expect(page).toHaveURL(/\/$/);
     await expect(await mainPage.getLoggedAsUser()).toBeVisible();
@@ -42,28 +29,35 @@ test.describe("Login testing", () => {
     // await expect(await userPage.getUserFirstLastName()).toContainText(
     //   "Elona Musk"
     // );
-    await userPage.checkUserCredentials(USER_LOGIN, USER_EMAIL, USER_IRC_NICK);
+    const userPage = new UserPage(page);
+    await userPage.checkUserCredentials(
+      validUsername,
+      validEmail,
+      validIRCnick
+    );
     await expect(await userPage.getMyAccountLink()).toBeVisible();
     await userPage.clickMyAccountLink();
     await expect(page).toHaveURL(/my\/account$/);
+    const myAccountPage = new MyAccountPage(page);
     await myAccountPage.checkUserCredentials(
-      USER_LOGIN,
-      USER_FIRST_NAME,
-      USER_LAST_NAME,
-      USER_EMAIL,
-      USER_IRC_NICK
+      validUsername,
+      validFirstName,
+      validLastName,
+      validEmail,
+      validIRCnick
     );
   });
 
-  test("Login with empty required fields", async () => {
+  test("Login with empty required fields", async ({ page }) => {
+    const loginPage = new LoginPage(page);
     await loginPage.openLoginUrl();
     await loginPage.clickLoginButton();
     await expect
       .soft(await loginPage.getLoginErrorMsg())
-      .toContainText(systemMessages["blank-login"]);
+      .toContainText(LoginPage.blankUsername_error);
     await expect
       .soft(await loginPage.getLoginErrorMsg())
-      .toContainText(systemMessages["blank-password"]);
+      .toContainText(LoginPage.blankPassword_error);
     await loginPage.checkRedHighlightFields(["username", "password"]);
   });
 });

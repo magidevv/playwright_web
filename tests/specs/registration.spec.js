@@ -1,91 +1,98 @@
 const { test, expect } = require("@playwright/test");
-const { MainPage } = require("../pages/main.page");
-const { RegistrationPage } = require("../pages/registration.page");
-const testData = require("../../data/test-data.js");
-const systemMessages = require("../../data/system-messages.json");
+import MainPage from "../pages/main.page";
+import RegistrationPage from "../pages/registration.page";
+import Helper from "../../helper/helper";
+const invalidData = require("../../data/invalid-data.json");
 
-let mainPage;
-let registrationPage;
+const validRandomUsername = Helper.generateRandomName();
+const validRandomPassword = Helper.generateRandomPassword();
+const validRandomFirstName = Helper.generateRandomFirstName();
+const validRandomLastName = Helper.generateRandomLastName();
+const validRandomEmail = Helper.generateRandomEmail();
+const validRandomIRCnick = Helper.generateRandomName();
 
 test.describe("Registration testing", () => {
-  test.beforeEach(async ({ page }) => {
-    mainPage = new MainPage(page);
-    registrationPage = new RegistrationPage(page);
-  });
-
   test("New account registration with valid credentials", async ({ page }) => {
+    const mainPage = new MainPage(page);
     await mainPage.openMainUrl();
     await expect(await mainPage.getRegistrationLink()).toBeVisible();
     await mainPage.clickRegistrationLink();
     await expect(page).toHaveURL(/account\/register$/);
+    const registrationPage = new RegistrationPage(page);
     await registrationPage.displayRegistrationForm();
     await registrationPage.fillRegistrationForm(
-      testData.randomName,
-      testData.randomPassword,
-      testData.confirmPassword,
-      testData.randomFirstName,
-      testData.randomLastName,
-      testData.randomEmail,
-      testData.randomIRCnick
+      validRandomUsername,
+      validRandomPassword,
+      validRandomPassword,
+      validRandomFirstName,
+      validRandomLastName,
+      validRandomEmail,
+      validRandomIRCnick
     );
     await registrationPage.clickRegistrationConfirmButton();
     await expect(await registrationPage.getConfirmationMsg()).toContainText(
-      systemMessages["confirm-msg"]
+      RegistrationPage.confirmation_msg
     );
   });
 
-  test("New account registration with incorrect user data format", async () => {
+  test("New account registration with incorrect user data format", async ({
+    page,
+  }) => {
+    const registrationPage = new RegistrationPage(page);
     await registrationPage.openRegistrationUrl();
     await registrationPage.fillRegistrationForm(
-      testData.randomBadName,
-      testData.randomBadPassword,
-      testData.randomBadPasswordConfirm,
-      testData.randomBadFirstName,
-      testData.randomBadLastName,
-      testData.randomBadEmail,
-      testData.randomBadIRCnick
+      invalidData["username-with-special-chars"],
+      invalidData["short-password"],
+      invalidData["numeric-password"],
+      invalidData["first-name-with-special-chars"],
+      invalidData["last-name-with-special-chars"],
+      invalidData["email-without-domain"],
+      invalidData["numeric-username"]
     );
     await registrationPage.clickRegistrationConfirmButton();
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(systemMessages["invalid-login"]);
+      .toContainText(RegistrationPage.invalidUsername_error);
     await expect(
       await registrationPage.getRegistrationErrorMsg()
-    ).toContainText(systemMessages["invalid-password"]);
+    ).toContainText(RegistrationPage.invalidPassword_error);
     await expect(
       await registrationPage.getRegistrationErrorMsg()
-    ).toContainText(systemMessages["invalid-password-confirm"]);
+    ).toContainText(RegistrationPage.invalidPasswordConfirm_error);
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(systemMessages["invalid-firstname"]);
+      .toContainText(RegistrationPage.invalidFirstName_error);
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(systemMessages["invalid-lastname"]);
+      .toContainText(RegistrationPage.invalidLastName_error);
     await expect(
       await registrationPage.getRegistrationErrorMsg()
-    ).toContainText(systemMessages["invalid-email"]);
+    ).toContainText(RegistrationPage.invalidEmail_error);
     await expect
       .soft(await registrationPage.getRegistrationErrorMsg())
-      .toContainText(systemMessages["invalid-ircnick"]);
+      .toContainText(RegistrationPage.invalidIRCnick_error);
     await registrationPage.checkRedHighlightFields([
       "login",
       "password",
       "password_confirmation",
       "firstname",
       "lastname",
-      "mail"
+      "mail",
     ]);
   });
 
-  test("New account registration with empty required fields", async () => {
+  test("New account registration with empty required fields", async ({
+    page,
+  }) => {
+    const registrationPage = new RegistrationPage(page);
     await registrationPage.openRegistrationUrl();
     await registrationPage.clickRegistrationConfirmButton();
     await registrationPage.checkTextInList([
-      systemMessages["blank-email"],
-      systemMessages["blank-login"],
-      systemMessages["blank-firstname"],
-      systemMessages["blank-lastname"],
-      systemMessages["blank-password"]
+      RegistrationPage.blankEmail_error,
+      RegistrationPage.blankUsername_error,
+      RegistrationPage.blankFirstName_error,
+      RegistrationPage.blankLastName_error,
+      RegistrationPage.blankPassword_error,
     ]);
     await registrationPage.checkRedHighlightFields([
       "login",
@@ -93,7 +100,7 @@ test.describe("Registration testing", () => {
       "password_confirmation",
       "firstname",
       "lastname",
-      "mail"
+      "mail",
     ]);
   });
 });

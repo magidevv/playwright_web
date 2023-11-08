@@ -46,4 +46,4 @@ class MyAccountPage extends Page {
   }
 }
 
-module.exports = { MyAccountPage };
+export default MyAccountPage;
