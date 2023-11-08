@@ -50,8 +50,8 @@ To install and set up this project from the GitHub repository, follow these step
    ```
 
 5. Set Environment Variables:
-    Create a copy of .env.example as .env.
-    Fill in the necessary environment variables required for the project.
+  - Create a copy of .env.example as .env.
+  - Fill in the necessary environment variables required for the project.
 
 ## Launching Scripts
 
