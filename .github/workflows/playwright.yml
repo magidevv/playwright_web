@@ -9,6 +9,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
+      ENV: ${{ secrets.ENV }}
       USER_LOGIN: ${{ secrets.USER_LOGIN }}
       USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
       USER_FIRST_NAME: ${{ secrets.USER_FIRST_NAME }}
