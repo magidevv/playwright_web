@@ -59,22 +59,22 @@ This project provides several scripts to run Playwright tests:
 
 - To run tests in the headless browser mode, use:
   ```shell
-  npx run test:all
+  npm run test:all
   ```
 
 - To run tests in headed mode (visible browser window), use:
   ```shell
-  npx run test:all:headed
+  npm run test:all:headed
   ```
 
 - To run a specific test, for example, `login.spec.js`, use:
   ```shell
-  npx run test:login
+  npm run test:login
   ```
 
 - To run a different test, such as `registration.spec.js`, use:
   ```shell
-  npx run test:registration
+  npm run test:registration
   ```
 
 ## Creating and Viewing Reports
@@ -83,10 +83,10 @@ To generate and view Allure test reports, use the following scripts:
 
 - To create the report, run:
   ```shell
-  npx run report:create
+  npm run report:create
   ```
 
 - To open the report in your default web browser, run:
   ```shell
-  npx run report:open
+  npm run report:open
   ```
