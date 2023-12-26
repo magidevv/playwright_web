@@ -7,7 +7,6 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 60
     runs-on: ubuntu-latest
 
     env:
@@ -42,15 +41,11 @@ jobs:
       #     path: playwright-report/
       #     retention-days: 30
 
+      - name: Install Allure globally
+        run: npm install -g allure-commandline
+
       - name: Generate Allure Report
         run: npx allure generate my-allure-results -o allure-report --clean
-
-      - name: Push Report to Another Branch
-        run: |
-          git checkout -b allure-report
-          git add .
-          git commit -m "Add Allure report files"
-          git push origin allure-report
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
