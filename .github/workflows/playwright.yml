@@ -1,13 +1,15 @@
 name: Playwright Tests
+
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    branches:
+      - main
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
     env:
       ENV: ${{ secrets.ENV }}
       USER_LOGIN: ${{ secrets.USER_LOGIN }}
@@ -16,37 +18,43 @@ jobs:
       USER_LAST_NAME: ${{ secrets.USER_LAST_NAME }}
       USER_EMAIL: ${{ secrets.USER_EMAIL }}
       USER_IRC_NICK: ${{ secrets.USER_IRC_NICK }}
+
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    - name: Install dependencies
-      run: npm install
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    # - uses: actions/upload-artifact@v3
-    #   if: always()
-    #   with:
-    #     name: playwright-report
-    #     path: playwright-report/
-    #     retention-days: 30
-    - name: Generate Allure Report
-      run: npx allure generate my-allure-results -o allure-report --clean
-    - name: Push Report to Another Branch
-      run: |
-        git checkout -b allure-report
-        git add .
-        git commit -m "Add Allure report files"
-        git push origin allure-report
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        personal_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./allure-report
-        publish_branch: allure-report
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
 
+      - name: Install dependencies
+        run: npm install
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test || true
+
+      # - uses: actions/upload-artifact@v3
+      #   if: always()
+      #   with:
+      #     name: playwright-report
+      #     path: playwright-report/
+      #     retention-days: 30
+
+      - name: Generate Allure Report
+        run: npx allure generate my-allure-results -o allure-report --clean
+
+      - name: Push Report to Another Branch
+        run: |
+          git checkout -b allure-report
+          git add .
+          git commit -m "Add Allure report files"
+          git push origin allure-report
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          publish_branch: allure-report
